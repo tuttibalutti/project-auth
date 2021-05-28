@@ -1,3 +1,3 @@
-const BASE_URL = 'https://week-20-project-auth-api.herokuapp.com'
+const BASE_URL = 'https://emmas-proj-auth.herokuapp.com'
 
 export const API_URL = (slug) => `${BASE_URL}/${slug}`

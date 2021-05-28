@@ -7,7 +7,8 @@ const credentials = createSlice({
     initialState: {
         username: null,
         accessToken: null,
-        error: null
+        error: null,
+        secret: ''
     },
     reducers: {
         setUsername: (store, action) => {
@@ -22,6 +23,9 @@ const credentials = createSlice({
         logOut: (store, action) => {
             store.username = null
             store.accessToken = null
+        },
+        setSecret: (store, action) => {
+            store.secret = action.payload
         }
     }
 })
@@ -40,12 +44,19 @@ export const authenticate = (username, password, mode) => {
         })
         .then(res => res.json())
         .then(data => {
-            if (data.success) { 
-                batch(() => {
-                    dispatch(credentials.actions.setAccessToken(data.accessToken))
-                    dispatch(credentials.actions.setUsername(data.username))
-                    dispatch(credentials.actions.setError(null))
-                })
+            if (data.success) {
+                if (mode === 'secret') {
+                    batch(() => {
+                        dispatch(credentials.actions.setSecret(data.message))
+                        dispatch(credentials.actions.setError(null))
+                    })
+                } else {
+                    batch(() => {
+                        dispatch(credentials.actions.setAccessToken(data.accessToken))
+                        dispatch(credentials.actions.setUsername(data.username))
+                        dispatch(credentials.actions.setError(null))
+                    })
+                }
             } else {
                 dispatch(credentials.actions.setError(data))
             }

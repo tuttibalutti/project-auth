@@ -53,9 +53,9 @@ app.get('/secret', authenticateUser)
 app.get('/secret', async (req, res) => {
   const { message } = req.body;
   try {
-    res.json({ message: "here is the secret message :D" })
+    res.json({ message: 'here is the secret message :D' })
   } catch (error) {
-    res.status(400).json({ message: "Invalid Request", error })
+    res.status(400).json({ message: 'Invalid Request', error })
   }
 })
 
